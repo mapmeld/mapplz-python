@@ -19,30 +19,30 @@ mapstore = MapPLZ()
 
 # add points
 mapstore.add(40, -70);
-mapstore.add([40, -70);
+mapstore.add([40, -70]);
 mapstore.add({ "lat": 40, "lng": -70 })
 mapstore.add(lat=40, lng=-70)
 
-# add lines
+# add lines (TODO)
 mapstore.add([[40, -70], [33, -110]])
 
-# add polygons
+# add polygons (TODO)
 mapstore.add([[[40, -70], [33, -110], [22, -90], [40, -70]]]);
 
 # GeoJSON objects or strings
 mapstore.add({ "type": "Feature", "geometry": { "type": "Point", "coordinates": [-70, 40] } });
 mapstore.add('{ "type": "Feature", "geometry": { "type": "Point", "coordinates": [-70, 40] } }');
 
-# add properties
+# add properties (TODO)
 mapstore.add({ "lat": 40, "lng": -70, "color": "blue" })
 mapstore.add(40, -70, { "color": "blue" })
 mapstore.add(lat=40, lng=-70, color="blue")
 
-# update properties
+# update properties (TODO)
 pt = mapstore.add(40, -70)
 pt["properties"]["color"] == "blue"
 
-# also: WKT, CSV strings, and MapPLZ code
+# also: WKT, CSV strings, and MapPLZ code (TODO)
 mapstore.add('POINT(-70 40)')
 mapstore.add('color,geo\nred,\'{"type":"Feature","geometry":{"type":"Point","coordinates":[-70,40]}}\'')
 

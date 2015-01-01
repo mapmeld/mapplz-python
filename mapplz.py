@@ -72,6 +72,18 @@ class MapPLZ:
             except:
                 k = 1
 
+    def count(self, **conditions):
+        k = 1
+
+    def query(self, **conditions):
+        k = 1
+
+    def nearest(self, **conditions):
+        k = 1
+
+    def within(self, **conditions):
+        k = 1
+
     def reverse_path(self, coords):
         index = 0
         for point in path:

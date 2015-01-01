@@ -2,6 +2,8 @@
 # general class for how MapPLZ represents points, lines, polygons
 # FreeBSD license - by Nick Doiron (@mapmeld)
 
+import geojson
+
 class MapItem(dict):
     def __init__(self, db=None, **kwargs):
         self.db = db
@@ -10,6 +12,13 @@ class MapItem(dict):
                 self[key] = float(value)
             else:
                 self[key] = value
+
+    def delete(self):
+        db.delete(self)
+
+    def toGeoJson(self):
+        if self.type() == "point":
+            return geojson.point(lat(), lng())
 
     def properties(self):
         # TODO: remove lat, lng, other non-attribute properties from dict
