@@ -93,9 +93,11 @@ nearest = mapstore.near([lat, lng], 5)
 inside = mapstore.within([[[40, -70], [50, -80], [30, -80], [40, -70]]])
 ```
 
-## Dependencies
+## Install
 
-All are installed when you run ```pip install -r requirements.txt```
+Simply run ```pip install mapplz```
+
+If you are building from source, make sure to install dependencies by running ```pip install -r requirements.txt```
 
 ## License
 
