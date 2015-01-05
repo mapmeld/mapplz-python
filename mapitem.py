@@ -31,8 +31,25 @@ class MapItem(dict):
         db.delete(self)
 
     def toGeoJson(self):
+        g = None
         if self.type() == "point":
-            return geojson.point(lat(), lng())
+            g = geojson.Point((self.lng(), self.lat()))
+        elif self.type() == "line":
+            linepts = []
+            for pt in self.path():
+                linepts.append((pt[1], pt[0]))
+            g = geojson.LineString(linepts)
+        elif self.type() == "polygon":
+            linepts = []
+            for ring in self.path():
+                ringpts = []
+                for pt in ring:
+                    ringpts.append((pt[1], pt[0]))
+                linepts.append(ringpts)
+            g = geojson.Polygon(linepts)
+        if g is not None:
+            feature = geojson.Feature(geometry=g, properties=self.properties())
+            return geojson.dumps(feature, sort_keys=True)
 
     def properties(self):
         return self["properties"]

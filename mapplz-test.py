@@ -137,5 +137,66 @@ class TestWithoutDB(unittest.TestCase):
         self.assertEqual(line.type(), 'line')
         self.assertEqual(line["properties"]["color"], "red")
 
+    def test_add_path_kwargs(self):
+        linepts = [[40, -70], [22, -110]]
+        line = self.mapstore.add(path=linepts, color="red")
+        self.assertEqual(line.type(), 'line')
+        self.assertEqual(line["properties"]["color"], "red")
+
+    def test_add_path2_kwargs(self):
+        linepts = [{"lat": 40, "lng": -70}, {"lat": 22, "lng": -110}]
+        line = self.mapstore.add(path=linepts, color="red")
+        self.assertEqual(line.type(), 'line')
+        self.assertEqual(line["properties"]["color"], "red")
+
+    def test_geojson_pt(self):
+        gj = {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [-70, 40]
+            },
+            "properties": {
+                "color": "red"
+            }
+        }
+        pt = self.mapstore.add(gj)
+        gj = json.loads(pt.toGeoJson())
+        self.assertEqual(gj["type"], "Feature")
+        self.assertEqual(gj["geometry"]["type"], "Point")
+        self.assertEqual(gj["geometry"]["coordinates"][0], -70)
+        self.assertEqual(gj["geometry"]["coordinates"][1], 40)
+        self.assertEqual(gj["properties"]["color"], "red")
+
+    def test_geojson_line(self):
+        gj = {
+            "type": "Feature",
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [[-70, 40], [-110, 30]]
+            }
+        }
+        line = self.mapstore.add(gj)
+        gj = json.loads(line.toGeoJson())
+        self.assertEqual(gj["type"], "Feature")
+        self.assertEqual(gj["geometry"]["type"], "LineString")
+        self.assertEqual(gj["geometry"]["coordinates"][0][0], -70)
+        self.assertEqual(gj["geometry"]["coordinates"][0][1], 40)
+
+    def test_geojson_poly(self):
+        gj = {
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[[-70, 40], [-110, 30], [-90, 30], [-70, 40]]]
+            }
+        }
+        line = self.mapstore.add(gj)
+        gj = json.loads(line.toGeoJson())
+        self.assertEqual(gj["type"], "Feature")
+        self.assertEqual(gj["geometry"]["type"], "Polygon")
+        self.assertEqual(gj["geometry"]["coordinates"][0][0][0], -70)
+        self.assertEqual(gj["geometry"]["coordinates"][0][0][1], 40)
+
 if __name__ == "__main__":
     unittest.main()

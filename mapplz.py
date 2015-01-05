@@ -25,7 +25,15 @@ class MapPLZ:
                         madeItem["properties"][key] = value
                 return madeItem
             except:
-                raise MapPLZUnparsedException()
+                try:
+                    # (path=PATH, PROPS)
+                    madeItem = self.add(kwargs["path"])
+                    for key, value in kwargs.iteritems():
+                        if key not in ["lat", "lng", "path"]:
+                            madeItem["properties"][key] = value
+                    return madeItem
+                except:
+                    raise MapPLZUnparsedException()
 
         elif len(args) == 1:
             try:
@@ -63,6 +71,9 @@ class MapPLZ:
                             else:
                                 path = self.reverse_path(geom["coordinates"])
                                 madeItem["path"] = path
+                            if "properties" in gj:
+                                for key, value in gj["properties"].iteritems():
+                                    madeItem["properties"][key] = value
                             return madeItem
                     except:
                         try:
@@ -159,15 +170,16 @@ class MapPLZ:
 
     def reverse_path(self, coords):
         index = 0
-        for point in path:
+        for point in coords:
             try:
                 lat = float(point[1])
                 lng = float(point[0])
-                point[index][0] = lat
-                point[index][1] = lng
+                coords[index][0] = lat
+                coords[index][1] = lng
             except:
-                path[index] = reverse_path(point)
-            return path
+                coords[index] = self.reverse_path(point)
+            index = index + 1
+        return coords
 
 
 class MapPLZUnparsedException(Exception):
