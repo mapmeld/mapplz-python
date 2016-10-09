@@ -12,7 +12,7 @@ it into a database.
 
 Adding some data:
 
-```
+```python
 from mapplz import MapPLZ
 
 mapstore = MapPLZ()
@@ -58,7 +58,7 @@ mapstore.add(mapcode)
 
 Each feature is returned as a MapItem, which has easily-accessible data
 
-```
+```python
 pt = mapstore.add(40, -70)
 pt.lat() == 40
 pt["lat"] == 40
@@ -78,7 +78,7 @@ line.delete()
 You don't need a database to query data with MapPLZ, but when you link
 Postgres/PostGIS or MongoDB, MapPLZ simplifies geodata management and queries:
 
-```
+```python
 # count all, return integer
 count = mapstore.count()
 
